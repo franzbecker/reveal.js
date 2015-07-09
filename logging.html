@@ -58,6 +58,7 @@
 							<ul>
 								<li>Spart Zeit beim Debugging</li>
 								<li>Große Hilfe für nebenläufige Prozesse</li>
+								<li>Gute Vorbereitung für Produktion</li>
 							</ul>
 						</p>
 						<p>
@@ -65,7 +66,7 @@
 						</p>
 					</section>
 					<section>
-						<h3>Logging im fertigen Produkt</h3>
+						<h3>Logging in Produktion</h3>
 						<br/>
 						<p>
 							<ul>
@@ -181,26 +182,31 @@ private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.c
 <!-- SPAM -->
 				<section>
 					<section>
-						<h2>spam</h2>
+						<h2>zerstückeln</h2>
 					</section>
-					<section>
+					<section id="fragments">
 						<h3>DON'T</h3>
 						<p>Mehrere Logeinträge für dasselbe Ereignis</p>
 						<br/>
 						<pre><code data-trim>
-logger.info("Something interesting happened");
+logger.info("Something interesting is happening");
 logger.info("right here!");
 						</pre></code>
-						<pre><code data-trim>
+						<pre class="fragment"><code data-trim>
 logger.error("I got a problem, here is my information:");
 for (String entry : list) {
     logger.error(entry);
 }
 						</pre></code>
+						<br>
+						<ul class="fragment">
+							<li>Erschwert das Analysieren von Logs</li>
+							<li>Katastrophe im Multi-User / Multi-Thread Szenario</li>
+						</ul>
 					</section>
 					<section>
 						<h3>DO</h3>
-						<p>Versuchen ein Logeintrag pro Ereignis zu erzeugen</p>
+						<p>Ein Logeintrag pro Ereignis</p>
 						<br/>
 						<pre><code data-trim>
 import com.google.common.base.Joiner;
