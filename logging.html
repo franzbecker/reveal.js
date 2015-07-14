@@ -62,7 +62,7 @@
 							</ul>
 						</p>
 						<p>
-							<br/>Um die Übersicht zu behalten helfen Tools wie GrepConsole.
+							<br/>Um die Übersicht zu behalten helfen Tools wie Grep Console.
 						</p>
 					</section>
 					<section>
@@ -87,7 +87,7 @@
 					</section>
 					<section>
 						<p>Log4j 2</p>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,7 +95,7 @@ Logger logger = LogManager.getLogger(MyClass.class);
 						</code></pre>
 <br/>
 						<p>SLF4J<br/><small>Simple Logging Facade for Java</small></p>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,7 +109,7 @@ Logger logger = LoggerFactory.getLogger(MyClass.class);
 							  <br/>
 							  Wenn diese nicht gefunden wird erhält man folgende Meldung:
 						  </small>
-						  <pre><code data-trim>
+						  <pre><code data-trim contenteditable>
 SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
@@ -126,8 +126,9 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 						<h3>DON'T</h3>
 						<p>Uppercase LOGGER Variable</p>
 						<br/>
-						<pre><code data-trim>
-private static final LOGGER = LoggerFactory.getLogger(MyClass.class);
+						<pre><code data-trim contenteditable>
+private static final LOGGER =
+    LoggerFactory.getLogger(MyClass.class);
 
 LOGGER.info("Hello, world");
 						</pre></code>
@@ -136,8 +137,9 @@ LOGGER.info("Hello, world");
 					</section>
 					<section>
 						<h3>DO</h3>
-						<pre><code data-trim>
-private static final logger = LoggerFactory.getLogger(MyClass.class);
+						<pre><code data-trim contenteditable>
+private static final logger =
+    LoggerFactory.getLogger(MyClass.class);
 
 logger.info("Hello, world");
 						</pre></code>
@@ -152,7 +154,7 @@ logger.info("Hello, world");
 						<h3>DON'T</h3>
 						<p>Copy & paste is evil&trade;</p>
 						<br/>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 public class MyClass {
 
     private static final Logger logger =
@@ -172,9 +174,10 @@ public class MyClass {
 						<h3>DO</h3>
 						<p>Eclipse Template</p>
 						<br/>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 ${:import(org.slf4j.Logger, org.slf4j.LoggerFactory)}
-private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.class);
+private static final Logger logger =
+    LoggerFactory.getLogger(${enclosing_type}.class);
 						</pre></code>
 					</section>
 				</section>
@@ -188,11 +191,11 @@ private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.c
 						<h3>DON'T</h3>
 						<p>Mehrere Logeinträge für dasselbe Ereignis</p>
 						<br/>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 logger.info("Something interesting is happening");
 logger.info("right here!");
 						</pre></code>
-						<pre class="fragment"><code data-trim>
+						<pre class="fragment"><code data-trim contenteditable>
 logger.error("I got a problem, here is my information:");
 for (String entry : list) {
     logger.error(entry);
@@ -209,7 +212,7 @@ for (String entry : list) {
 						<h3>DO</h3>
 						<p>Ein Logeintrag pro Ereignis</p>
 						<br/>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 import com.google.common.base.Joiner;
 import static java.lang.System.lineSeparator;
 
@@ -227,23 +230,23 @@ logger.error("I got a problem, here is my information: \n{}", info);
 					</section>
 					<section>
 						<h3>DON'T</h3>
-						<p>Nicht-triviale Strings konkatenieren</p>
+						<p>Nicht-literale Strings konkatenieren</p>
 						<br>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 logger.trace("Request with id " + request.getId() + " was"
   + " successful and the data was: " + request.getData());
 						</code></pre>
 						<br>
 						<ul>
-							<li>String wird unabhängig vom Log-Level immer gebaut</li>
+							<li>String wird unabhängig vom Log-Level gebaut</li>
 							<li>Schwierig zu lesen / zu schreiben</li>
 						</ul>
 					</section>
 					<section>
 						<h3>DON'T</h3>
-						<p>Log-Level abfragen</p>
+						<p>Log-Level für <strong>triviale</strong> Statements abfragen</p>
 						<br>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 if (logger.isTraceEnabled()) {
   logger.trace("Request with id " + request.getId() + " was "
     + " successful and the data was: " + request.getData());
@@ -260,283 +263,131 @@ if (logger.isTraceEnabled()) {
 						<h3>DO</h3>
 						<p>Parameterized Logging</p>
 						<br/>
-						<pre><code data-trim>
+						<pre><code data-trim contenteditable>
 logger.trace("Request with id {} was successful and the data " +
   "was: {}", request.getId(), request.getData());
 						</pre></code>
 					</section>
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+<!-- Set Error Level Manually -->
+<section>
+	<section>
+		<h2>Log-Level setzen</h2>
+	</section>
+	<section>
+		<h3>DON'T</h3>
+		<p>Log-Level im Code setzen</p>
+		<br>
+		<pre><code data-trim contenteditable>
+LOGGER.setLevel(Level.ERROR);
+		</code></pre>
+		<pre class="fragment"><code data-trim contenteditable>
+Level oldLevel = LOGGER.getLevel();
+LOGGER.setLevel(Level.TRACE);
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+// here be dragons
 
-						```
-						<section data-markdown>
-						  ## Markdown support
+LOGGER.setLevel(oldLevel);
+		</code></pre>
+		<br>
+		<ul class="fragment">
+			<li>Log-Level wird konfiguriert</li>
+			<li>In Log4J 2 und SLF4J gibt es dafür keine API!</li>
+		</ul>
+	</section>
+</section>
 
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
+<!-- Vererbung -->
+<section>
+	<section>
+		<h2>Logger Vererbung</h2>
+	</section>
+	<section>
+		<h3>SOMETIMES</h3>
+		<p>Logger Vererbung kann sinnvoll sein</p>
+		<br>
+		<pre><code data-trim contenteditable>
+abstract public class AbstractBaseClass {
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+    protected final Logger logger =
+	    LoggerFactory.getLogger(getClass());
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
+    protected void initialize() {
+        // ...
+        logger.trace("Initialization completed.")
     }
-  }
+
 }
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+		</code></pre>
+		<br>
+		<ul>
+			<li>Kann hilfreich sein aber auch verwirren</li>
+			<li>Caller im Log-Pattern ist sehr teuer</li>
+		</ul>
+	</section>
+</section>
 
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
+<!-- MDC -->
+<section>
+	<section>
+		<h2>MDC</h2>
+	</section>
+	<section>
+		<h3>MDC</h3>
+		<p>Mapped Diagnostic Context</p>
+		<br>
+		<ul>
+			<li>Thread-lokale Map mit Kontextinformation</li>
+			<li>Framework kann MDC in die Ausgabe einbauen</li>
+		</ul>
+	</section>
+	<section>
+		<h3>DON't</h3>
+		<p>Parameter in API nur für Logging</p>
+		<br>
+		<pre><code data-trim contenteditable>
+public BigDecimal calculateSum(List&lt;Item&gt; items, String orderId) {
+    BigDecimal sum = BigDecimal.ZERO;
+    for (Item item : items) {
+        sum.add(item.getPrice());
+    }
+    logger.debug("Calculated total price of {} for orderId: {}",
+        sum, orderId);
+}
+		</code></pre>
+    </section>
+	<section>
+		<h3>DO</h3>
+		<br>
+		<pre><code data-trim contenteditable>
+public static final String ORDER_ID = "orderId"; // MDC helper
 
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
+public void handleOrder(Order order) {
+    MDC.put(ORDER_ID, order.getId());
+    // ... call calculateSum somewhere
+    MDC.clear();
+}
+</code></pre>
+<pre><code data-trim contenteditable>
+  &lt;PatternLayout pattern="... %X{orderId} ..." />
+</code></pre>
+<pre class="fragment"><code data-trim contenteditable>
+public BigDecimal calculateSum(List&lt;Item&gt; items) {
+    BigDecimal sum = BigDecimal.ZERO;
+    for (Item item : items) {
+        sum.add(item.getPrice());
+    }
+    logger.debug("Calculated total price of {}", sum);
+}
+		</code></pre>
 
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							<tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							<tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							<tr>
-						</tbody>
-					</table>
-				</section>
+    </section>
+</section>
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
-
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
-
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
-
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
-
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
-
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
+<section>
+	<h2>happy logging</h2>
+</section>
 
 			</div>
 
