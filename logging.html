@@ -179,12 +179,12 @@ private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.c
 					</section>
 				</section>
 
-<!-- SPAM -->
+<!-- fragmentieren -->
 				<section>
 					<section>
-						<h2>zerstückeln</h2>
+						<h2>fragmentieren</h2>
 					</section>
-					<section id="fragments">
+					<section>
 						<h3>DON'T</h3>
 						<p>Mehrere Logeinträge für dasselbe Ereignis</p>
 						<br/>
@@ -200,8 +200,9 @@ for (String entry : list) {
 						</pre></code>
 						<br>
 						<ul class="fragment">
-							<li>Erschwert das Analysieren von Logs</li>
-							<li>Katastrophe im Multi-User / Multi-Thread Szenario</li>
+							<li>Erschwert das manuelle Analysieren von Logs</li>
+							<li>Verhindert das automatisierte Analysieren von Logs</li>
+							<li>Log ist fragmentiert im Multi-User / Multi-Thread Szenario</li>
 						</ul>
 					</section>
 					<section>
@@ -215,6 +216,53 @@ import static java.lang.System.lineSeparator;
 
 String info = Joiner.on(lineSeparator()).join(list);
 logger.error("I got a problem, here is my information: \n{}", info);
+						</pre></code>
+					</section>
+				</section>
+
+<!-- Konkatenation -->
+				<section>
+					<section>
+						<h2>Konkatenation</h2>
+					</section>
+					<section>
+						<h3>DON'T</h3>
+						<p>Nicht-triviale Strings konkatenieren</p>
+						<br>
+						<pre><code data-trim>
+logger.trace("Request with id " + request.getId() + " was"
+  + " successful and the data was: " + request.getData());
+						</code></pre>
+						<br>
+						<ul>
+							<li>String wird unabhängig vom Log-Level immer gebaut</li>
+							<li>Schwierig zu lesen / zu schreiben</li>
+						</ul>
+					</section>
+					<section>
+						<h3>DON'T</h3>
+						<p>Log-Level abfragen</p>
+						<br>
+						<pre><code data-trim>
+if (logger.isTraceEnabled()) {
+  logger.trace("Request with id " + request.getId() + " was "
+    + " successful and the data was: " + request.getData());
+}
+						</code></pre>
+						<br>
+						<ul>
+							<li>Code wird unübersichtlich</li>
+							<li>Log-Level muss an zwei Stellen geändert werden</li>
+						</ul>
+						</p>
+					</section>
+					<section>
+						<h3>DO</h3>
+						<p>Parameterized Logging</p>
+						<br/>
+						<pre><code data-trim>
+logger.trace("Request with id {} was successful and the data " +
+  "was: {}", request.getId(), request.getData());
 						</pre></code>
 					</section>
 				</section>
