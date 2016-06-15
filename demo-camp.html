@@ -4,7 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Domain-driven acceptance tests using Xtext</title>
+
+		<meta name="author" content="Franz Becker">
+
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -15,6 +18,7 @@
         <!-- CUSTOM styles for this presentation -->
         <style type="text/css">
             .reveal section img { background: none; border: none; box-shadow: none; }
+            .reveal pre code { max-height: 600px; }
         </style>
 
 		<!-- Printing and PDF exports -->
@@ -219,7 +223,7 @@ component GreetingApplication is Application {
 <b><i>* Start the famous greetings application.</i></b>
 <span class="fragment">
     Component: GreetingApplication
-    - Start application "org.testeditor.demo.swing.GreetingApplication"
+    - Start application <font size="-0.1">"org.testeditor.demo.swing.GreetingApplication"</font>
 </span>
 <b><i>* Send greetings "Hello World" to the world.</i></b>
 <span class="fragment">
